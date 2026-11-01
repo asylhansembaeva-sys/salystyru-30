@@ -58,7 +58,42 @@ h1{font-size:clamp(34px,4vw,62px);margin:7px 0 2px}
  .middle .slot{width:100%;height:76px;font-size:clamp(33px,9vw,55px);border-width:4px;border-radius:13px}
 }
 @media(max-width:390px){.side>.slot{width:min(100%,96px);height:72px;font-size:47px}.middle .slot{height:72px;font-size:35px}}
-</style></head><body><div class="wrap"><div class="stats"><div class="pill">⏱ <span id="timer">00:00</span></div><div class="pill">Тапсырма <span id="step">1</span> / 30</div><div class="pill">⭐ <span id="score">0</span></div></div><h1>САЛЫСТЫРУ</h1><div class="instruction">Заттарды сана! Сәйкес сандарды қой да, салыстыру таңбасын таңда!</div><div class="stage"><div class="side"><div class="panel"><div class="items" id="leftItems"></div></div><button class="slot" data-slot="0" aria-label="Сол жақтағы сан"></button></div><div class="middle"><button class="slot" data-slot="1" aria-label="Салыстыру таңбасы"></button></div><div class="side"><div class="panel right"><div class="items" id="rightItems"></div></div><button class="slot" data-slot="2" aria-label="Оң жақтағы сан"></button></div></div><div class="bank-title">Сандар мен таңбаларды таңда немесе сүйреп апар:</div><div class="bank" id="bank"></div><div class="feedback" id="feedback" aria-live="polite"></div><div class="bottom"><button class="reset" id="restart">↻ Қайта бастау</button><button class="sound" id="sound">🔊 Дыбыс қосулы</button></div><div class="help">Алдымен төмендегі шаршыны, содан кейін бос ұяшықты басуға болады.</div></div><div class="confetti" id="endOverlay"><div class="end">🎉 ЖАРАЙСЫҢ! 🎉<div style="font-size:.5em;margin:18px" id="endText"></div><button id="again">Қайта ойнау</button></div></div><script>
+
+/* Үлкейтілген зат суреттері: 10 зат та панельге сыйып тұрады */
+.side .panel{padding:5px 4px;height:350px}
+.side .items{grid-template-columns:repeat(4,minmax(0,1fr));gap:2px 3px}
+.side .object{aspect-ratio:1.05;max-width:none}
+.side .object img{width:100%;height:100%;object-fit:contain;transform:scale(1.13)}
+.middle{height:350px}
+.tile{touch-action:none;-webkit-user-select:none;user-select:none}
+.drag-ghost{position:fixed;z-index:9999;pointer-events:none;width:74px;height:74px;border:4px solid white;border-radius:16px;display:flex;align-items:center;justify-content:center;color:white;background:#226bd6;box-shadow:0 9px 22px #0005;font:bold 51px 'Times New Roman',serif;transform:translate(-50%,-50%)}
+.slot.drag-target{outline:5px solid #ffbd19;background:#fff5bc}
+@media(max-width:700px){
+ .side .panel{height:265px;padding:3px 2px}
+ .side .items{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 1px}
+ .side .object{aspect-ratio:1.02}
+ .side .object img{transform:scale(1.12)}
+ .middle{height:265px}
+ .drag-ghost{width:62px;height:62px;font-size:42px}
+}
+@media(max-width:390px){.side .panel{height:240px}.middle{height:240px}}
+
+/* Панель кеңейтілді, ұшақ қанаты мен тікұшақ қалағы қиылмайды */
+.side .panel{height:410px;padding:12px 12px;overflow:visible}
+.side .items{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px 8px;overflow:visible}
+.side .object{aspect-ratio:1.12;min-width:0;overflow:visible}
+.side .object img{transform:none;object-fit:contain;max-width:100%;max-height:100%}
+.middle{height:410px}
+.bank-title{color:#a00020;font-size:clamp(25px,3.2vw,42px);font-weight:900;text-shadow:1px 2px 0 white,0 0 3px white;margin:19px 0 12px}
+@media(max-width:700px){
+ .side .panel{height:305px;padding:8px 5px;overflow:visible}
+ .side .items{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 3px}
+ .side .object{aspect-ratio:1.05}
+ .middle{height:305px}
+ .bank-title{font-size:clamp(23px,5.8vw,30px);line-height:1.15;margin:18px 2px 12px}
+}
+@media(max-width:390px){.side .panel{height:285px}.middle{height:285px}}
+</style></head><body><div class="wrap"><div class="stats"><div class="pill">⏱ <span id="timer">00:00</span></div><div class="pill">Тапсырма <span id="step">1</span> / 30</div><div class="pill">⭐ <span id="score">0</span></div></div><h1>САЛЫСТЫРУ</h1><div class="instruction">Заттарды сана! Сәйкес сандарды қой да, салыстыру таңбасын таңда!</div><div class="stage"><div class="side"><div class="panel"><div class="items" id="leftItems"></div></div><button class="slot" data-slot="0" aria-label="Сол жақтағы сан"></button></div><div class="middle"><button class="slot" data-slot="1" aria-label="Салыстыру таңбасы"></button></div><div class="side"><div class="panel right"><div class="items" id="rightItems"></div></div><button class="slot" data-slot="2" aria-label="Оң жақтағы сан"></button></div></div><div class="bank-title">САНДАР МЕН ТАҢБАЛАРДЫ СҮЙРЕП АПАР НЕМЕСЕ БАСЫП ТАҢДА!</div><div class="bank" id="bank"></div><div class="feedback" id="feedback" aria-live="polite"></div><div class="bottom"><button class="reset" id="restart">↻ Қайта бастау</button><button class="sound" id="sound">🔊 Дыбыс қосулы</button></div><div class="help">Алдымен төмендегі шаршыны, содан кейін бос ұяшықты басуға болады.</div></div><div class="confetti" id="endOverlay"><div class="end">🎉 ЖАРАЙСЫҢ! 🎉<div style="font-size:.5em;margin:18px" id="endText"></div><button id="again">Қайта ойнау</button></div></div><script>
 'use strict';
 // Every illustration is a self-contained vector, so the game works offline too.
 const art={
@@ -87,12 +122,54 @@ const specs=[["car",6,"tractor",4],["plane",8,"helicopter",10],["notebook",5,"pe
 let current=0,score=0,seconds=0,answers=['','',''],selected=null,selectedSlot=null,muted=false,locked=false,audioCtx=null,started=false;
 const $=id=>document.getElementById(id);const slots=[...document.querySelectorAll('.slot')];
 function tone(correct){if(muted)return;try{audioCtx??=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();let now=audioCtx.currentTime;const notes=correct?[523,659,784]:[330,220];notes.forEach((freq,i)=>{let osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type=correct?'sine':'triangle';osc.frequency.setValueAtTime(freq,now+i*.12);gain.gain.setValueAtTime(.0001,now+i*.12);gain.gain.exponentialRampToValueAtTime(.15,now+i*.12+.018);gain.gain.exponentialRampToValueAtTime(.0001,now+i*.12+.15);osc.connect(gain).connect(audioCtx.destination);osc.start(now+i*.12);osc.stop(now+i*.12+.16)})}catch(e){}}
-function render(){locked=false;answers=['','',''];selected=null;selectedSlot=null;let [a,an,b,bn]=specs[current];$('step').textContent=current+1;$('score').textContent=score;$('leftItems').innerHTML=Array(an).fill(`<div class="object">${art[a]}</div>`).join('');$('rightItems').innerHTML=Array(bn).fill(`<div class="object">${art[b]}</div>`).join('');$('feedback').textContent='';slots.forEach(s=>{s.textContent='';s.className='slot'});const values=[0,1,2,3,4,5,6,7,8,9,10,'>','<','='];$('bank').innerHTML='';values.forEach(v=>{let t=document.createElement('button');t.className='tile';t.textContent=v;t.draggable=true;t.dataset.value=v;t.setAttribute('aria-label',v);t.addEventListener('click',()=>pick(String(v)));t.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',String(v));selected=String(v)});$('bank').appendChild(t)});}
+function render(){locked=false;answers=['','',''];selected=null;selectedSlot=null;let [a,an,b,bn]=specs[current];$('step').textContent=current+1;$('score').textContent=score;$('leftItems').innerHTML=Array(an).fill(`<div class="object">${art[a]}</div>`).join('');$('rightItems').innerHTML=Array(bn).fill(`<div class="object">${art[b]}</div>`).join('');$('feedback').textContent='';slots.forEach(s=>{s.textContent='';s.className='slot'});const values=[0,1,2,3,4,5,6,7,8,9,10,'>','<','='];$('bank').innerHTML='';values.forEach(v=>{let t=document.createElement('button');t.className='tile';t.textContent=v;t.draggable=true;t.dataset.value=v;t.setAttribute('aria-label',v);t.addEventListener('click',()=>{if(t.dataset.suppressClick==='1'){t.dataset.suppressClick='0';return}pick(String(v))});t.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',String(v));selected=String(v)});$('bank').appendChild(t)});}
 function pick(v){if(locked)return;selected=v;document.querySelectorAll('.tile').forEach(t=>t.classList.toggle('active',t.dataset.value===v));if(selectedSlot!==null){put(selectedSlot,v);selectedSlot=null;return}}
 function put(i,v){if(locked)return;if(i===1?!['>','<','='].includes(v):!/^\d+$/.test(v)){$('feedback').textContent='Бұл ұяшыққа басқа таңдау керек.';return}answers[i]=v;slots[i].textContent=v;slots[i].classList.add('filled');slots[i].classList.remove('selected');selected=null;document.querySelectorAll('.tile').forEach(t=>t.classList.remove('active'));$('feedback').textContent='';if(answers.every(x=>x!==''))check()}
 slots.forEach((s,i)=>{s.addEventListener('click',()=>{if(locked)return;if(selected!==null){put(i,selected)}else{selectedSlot=i;slots.forEach(x=>x.classList.remove('selected'));s.classList.add('selected')}});s.addEventListener('dragover',e=>e.preventDefault());s.addEventListener('drop',e=>{e.preventDefault();put(i,e.dataTransfer.getData('text/plain'))})});
 function check(){let [,a,,b]=specs[current],correct=String(a)===answers[0]&&String(b)===answers[2]&&answers[1]===(a>b?'>':a<b?'<':'=');locked=true;slots.forEach(s=>s.classList.add(correct?'good':'bad'));tone(correct);if(correct){score++;$('score').textContent=score;$('feedback').textContent='✓ Дұрыс!';setTimeout(()=>{current++;if(current>=specs.length)finish();else render()},850)}else{$('feedback').textContent='✗ Қайта байқап көр!';setTimeout(()=>{locked=false;answers=['','',''];slots.forEach(s=>{s.textContent='';s.className='slot'});$('feedback').textContent=''},950)}}
 function finish(){$('endText').textContent=`30 тапсырманың ${score}-ына дұрыс жауап бердің! Уақытың: ${$('timer').textContent}`;$('endOverlay').classList.add('show')}
 function restart(){current=0;score=0;seconds=0;started=true;locked=false;selected=null;selectedSlot=null;$('timer').textContent='00:00';$('endOverlay').classList.remove('show');render()}
+
+// Pointer Events: телефонда және интерактивті тақтада саусақпен сүйрету.
+// Қалыпты басу → ұяшықты басу әдісі де өзгеріссіз қалады.
+let touchDrag=null;
+const bank=$('bank');
+bank.addEventListener('pointerdown',e=>{
+ const tile=e.target.closest('.tile');
+ if(!tile||locked||e.button>0)return;
+ touchDrag={tile,id:e.pointerId,value:tile.dataset.value,x:e.clientX,y:e.clientY,moved:false,ghost:null};
+ try{tile.setPointerCapture(e.pointerId)}catch(_){}
+});
+bank.addEventListener('pointermove',e=>{
+ const d=touchDrag;
+ if(!d||d.id!==e.pointerId)return;
+ if(!d.moved&&Math.hypot(e.clientX-d.x,e.clientY-d.y)<9)return;
+ if(!d.moved){
+  d.moved=true;
+  d.ghost=document.createElement('div');d.ghost.className='drag-ghost';d.ghost.textContent=d.value;
+  document.body.appendChild(d.ghost);
+ }
+ e.preventDefault();
+ d.ghost.style.left=e.clientX+'px';d.ghost.style.top=e.clientY+'px';
+ slots.forEach(slot=>slot.classList.remove('drag-target'));
+ const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('.slot');
+ if(target)target.classList.add('drag-target');
+});
+function endTouchDrag(e,cancelled=false){
+ const d=touchDrag;if(!d||d.id!==e.pointerId)return;
+ touchDrag=null;
+ if(d.ghost)d.ghost.remove();
+ slots.forEach(slot=>slot.classList.remove('drag-target'));
+ if(!d.moved)return;
+ // Сүйретуден кейін браузер қосымша click жасаса, қайта таңдамасын.
+ d.tile.dataset.suppressClick='1';
+ if(!cancelled){
+  const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('.slot');
+  if(target){put(Number(target.dataset.slot),d.value);selectedSlot=null}
+ }
+}
+bank.addEventListener('pointerup',e=>endTouchDrag(e));
+bank.addEventListener('pointercancel',e=>endTouchDrag(e,true));
+
 $('restart').onclick=restart;$('again').onclick=restart;$('sound').onclick=()=>{muted=!muted;$('sound').textContent=muted?'🔇 Дыбыс өшірулі':'🔊 Дыбыс қосулы'};setInterval(()=>{if(!started||current>=30)return;seconds++;$('timer').textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0')},1000);document.addEventListener('pointerdown',()=>{started=true},{once:true});render();
 </script></body></html>
